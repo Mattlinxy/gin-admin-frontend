@@ -119,8 +119,8 @@
   const rememberMe = ref(false);
 
   const formData = reactive({
-    account: 'Jack',
-    password: '12345678',
+    account: 'admin',
+    password: '123456',
   });
 
   const { validForm } = useFormValid(formRef);

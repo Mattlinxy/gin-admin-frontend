@@ -13,7 +13,7 @@ enum Api {
 /**
  * @description: user login api
  */
-export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') {
+export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'none') {
   return defHttp.post<LoginResultModel>(
     {
       url: Api.Login,
@@ -33,7 +33,7 @@ export function getUserInfo() {
 }
 
 export function doLogout() {
-  return defHttp.post({ url: Api.Logout });
+  return defHttp.post({ url: Api.Logout }, { errorMessageMode: 'none' });
 }
 
 export function testRetry() {

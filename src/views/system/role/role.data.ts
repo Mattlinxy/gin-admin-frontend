@@ -33,9 +33,6 @@ export const columns: BasicColumn[] = [
               record.status = newStatus;
               createMessage.success(`已成功修改角色状态`);
             })
-            .catch((err) => {
-              createMessage.error(err.message);
-            })
             .finally(() => {
               record.pendingStatus = false;
             });
