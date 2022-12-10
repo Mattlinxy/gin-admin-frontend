@@ -137,7 +137,7 @@ export const formSchema: FormSchema[] = [
     field: 'compo',
     label: '组件路径',
     component: 'Input',
-    ifShow: ({ values }) => isMenu(values.type),
+    ifShow: ({ values }) => !isButton(values.type),
   },
   {
     field: 'auth_key',
