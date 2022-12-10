@@ -18,6 +18,8 @@ const whitePathList: PageEnum[] = [LOGIN_PATH];
 export function createPermissionGuard(router: Router) {
   const userStore = useUserStoreWithOut();
   const permissionStore = usePermissionStoreWithOut();
+  const firstMenuRoute = userStore.getUserInfo.menu_list?.[0].route;
+
   router.beforeEach(async (to, from, next) => {
     if (
       from.path === ROOT_PATH &&
@@ -30,15 +32,15 @@ export function createPermissionGuard(router: Router) {
     }
 
     const token = userStore.getToken;
-
     // Whitelist can be directly entered
     if (whitePathList.includes(to.path as PageEnum)) {
       if (to.path === LOGIN_PATH && token) {
         const isSessionTimeout = userStore.getSessionTimeout;
+
         try {
           await userStore.afterLoginAction();
           if (!isSessionTimeout) {
-            next((to.query?.redirect as string) || '/');
+            next((to.query?.redirect as string) || firstMenuRoute);
             return;
           }
         } catch {}
@@ -104,10 +106,9 @@ export function createPermissionGuard(router: Router) {
     router.addRoute(PAGE_NOT_FOUND_ROUTE as unknown as RouteRecordRaw);
 
     permissionStore.setDynamicAddedRoute(true);
-
     if (to.name === PAGE_NOT_FOUND_ROUTE.name) {
       // 动态添加路由后，此处应当重定向到fullPath，否则会加载404页面内容
-      next({ path: to.fullPath, replace: true, query: to.query });
+      next({ path: firstMenuRoute, replace: true, query: to.query });
     } else {
       const redirectPath = (from.query.redirect || to.path) as string;
       const redirect = decodeURIComponent(redirectPath);

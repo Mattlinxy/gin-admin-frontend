@@ -83,7 +83,7 @@ export const useRouteStore = defineStore({
       const { menu_list, btn_list } = toRaw(userStore.getUserInfo);
       this.routes = menu_list;
       this.asyncRoutes = this.getAsyncRoutes(menu_list);
-      this.permCode = btn_list.map((item) => item.auth_key);
+      this.permCode = btn_list?.map((item) => item.auth_key);
     },
   },
 });
